@@ -1,0 +1,34 @@
+// Get the directory where all the tiff are placed
+project_dir = getDirectory("Select your project directory");
+
+// Get the raw_tif directory
+raw_tif_dir = project_dir + File.separator + "raw_tif";
+// Get the img_seq directory
+img_seq_dir = project_dir + File.separator + "img_seq";
+
+// Get the tif list
+tif_list = getFileList(raw_tif_dir);
+
+// Loop through all tifs
+for (i=0; i<tif_list.length; i++){
+
+	// Make directory to place all the divided png's
+	png_foldername = img_seq_dir + File.separator + tif_list[i];
+	File.makeDirectory(png_foldername);
+
+	// open the image file
+	filename = raw_tif_dir + File.separator + tif_list[i];
+	open(filename);
+
+	// select window
+	selectWindow(tif_list[i]);
+
+	// save as image sequence
+	// construct a command:
+	cmd = "select=" + png_foldername + " dir=" + png_foldername + " name=" + "z_";
+	// run command
+	run("Image Sequence... ", cmd);
+
+
+	close();
+}
